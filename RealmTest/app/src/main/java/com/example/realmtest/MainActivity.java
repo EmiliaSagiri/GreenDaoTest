@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +43,20 @@ private final String TAG = "666";
         LinearLayoutManager layoutManager =new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        adapter = new MyAdapter(userSumList);
+        adapter = new MyAdapter(this,userSumList);
         recyclerView.setAdapter(adapter);
+        /*
+        接口实现点击事件
+         */
+        adapter.setOnClickMyTextView(new MyAdapter.onClickMyTextView() {
+            @Override
+            public void mytextviewOnclick(View view, int id) {
+                Toast.makeText(MainActivity.this,
+                        " 编号为: "+userList.get(id).getNumber()+"\n"+" 名字为："+userList.get(id).getName()
+                                +"\n"+" 性别为： "+userList.get(id).getSex()+"\n"+" 分数为： "+userList.get(id).getGrade()
+                        ,Toast.LENGTH_SHORT).show();
+            }
+        });
         initView();
         findData();
 
@@ -126,7 +139,7 @@ private final String TAG = "666";
             //查询全部按钮
             case R.id.find:
                 for (User data:userList){
-                    Log.i(TAG, "编号为  ；"+data.getNumber()+" 名字为："+data.getName()
+                    Log.i(TAG, "编号为: "+data.getNumber()+" 名字为："+data.getName()
                             +" 性别为： "+data.getSex()+" 分数为： "+data.getGrade());
                 }
                 break;
